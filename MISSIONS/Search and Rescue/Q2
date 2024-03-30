@@ -1,0 +1,11 @@
+function find(bst, name) {
+  // Your answer here
+  return is_empty_tree(bst)
+    ? false
+    : equal(entry(bst), name)
+    ? true
+    : find(left_branch(bst), name) || find(right_branch(bst), name);
+}
+
+// Test
+find(cadet_names, "INSERT_YOUR_NAME_HERE");
