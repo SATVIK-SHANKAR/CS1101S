@@ -1,0 +1,19 @@
+// Part 1
+// your answer here (keep your answer commented)
+// unit_line_at : (Number) -> Curve
+
+// Part 2
+function vertical_line(pt, length) {
+    // your answer here
+    return y => make_point(x_of(pt), y * length + y_of(pt));
+}
+
+
+// Part 3
+// your answer here (keep your answer commented)
+// vertical_line : (Point, Number) -> Curve
+
+
+// Part 4
+// your answer here
+draw_connected(200)(vertical_line(make_point(0.5, 0.25), 0.5));
