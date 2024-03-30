@@ -1,0 +1,7 @@
+function fractal(pic, n) {
+    // your answer here
+    return n===1 ? pic : beside_frac(1/2,pic,stack(fractal(pic,n-1),fractal(pic, n-1)));
+}
+
+// Test
+show(fractal(make_cross(rcross), 5));
