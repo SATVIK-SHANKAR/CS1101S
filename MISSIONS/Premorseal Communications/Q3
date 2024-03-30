@@ -1,0 +1,23 @@
+// Task 3
+
+// Copy your own sine_sound function from the previous question here.
+
+function sine_sound(freq, duration) {
+    const sinewave = t => math_sin(2* math_PI * freq * t);
+    return make_sound(sinewave, duration);
+}    
+function two_consecutively(s1, s2) {
+    /* your answer here */
+    const two_together = t => t < get_duration (s1)
+                              ? get_wave(s1)(t)
+                              : get_wave(s2)(t);
+    const duration = get_duration(s1) + get_duration(s2);
+    return make_sound(two_together, duration);
+}
+
+const my_sine_1 = sine_sound(500, 1);
+const my_sine_2 = sine_sound(750, 2);
+
+// Play test sound.
+play(two_consecutively(my_sine_1, my_sine_2));
+play(my_sine_2);
