@@ -1,0 +1,11 @@
+// Task 2
+
+function sine_sound(freq, duration) {
+    const sine_wave = t => math_sin(2 * math_PI * freq * t);
+    return make_sound(sine_wave, duration);
+}
+
+
+
+// Play test sound.
+play(sine_sound(500, 1));
