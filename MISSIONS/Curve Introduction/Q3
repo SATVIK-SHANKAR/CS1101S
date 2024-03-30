@@ -1,0 +1,17 @@
+function s_generator(pt) {
+  return t =>
+    t < 0.5
+      ? make_point(
+          0.25 * -math_sin(2 * math_PI * 0.75 * 2 * (0.5 - t)) + x_of(pt),
+          0.25 * -math_cos(2 * math_PI * 0.75 * 2 * (0.5 - t)) + y_of(pt) + 0.25
+        )
+      : make_point(
+          0.25 * math_sin((2 * math_PI * 0.75 * (t - 0.5)) / 0.5) + x_of(pt),
+          0.25 * math_cos((2 * math_PI * 0.75 * (t - 0.5)) / 0.5) +
+            y_of(pt) -
+            0.25
+        );
+}
+
+// Test
+draw_connected_full_view_proportional(200)(s_generator(make_point(0.5, 0.25)));
