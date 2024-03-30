@@ -1,0 +1,42 @@
+// TASK 3
+
+function d_split_list(xs) {
+    const mid = math_ceil(length(xs) / 2) - 1 ;
+    
+    let mid_point = xs;
+    for ( let i = 0; i < mid; i = i + 1){
+        mid_point = tail(mid_point); 
+    }
+    const second_half = tail(mid_point);
+    set_tail(mid_point, null);
+    return pair(xs, second_half);
+}
+
+function d_merge(xs, ys) {
+    if (is_null(xs)){
+        return ys;
+    } else if(is_null(ys)){
+        return xs;
+    } else if (head(xs) <= head(ys)){
+        set_tail(xs, d_merge(tail(xs), ys));
+        return xs;
+    } else {
+        set_tail(ys, d_merge(xs, tail(ys)));
+        return ys;
+    }
+
+}
+
+function d_merge_sort(xs) {
+    if (is_null(xs) || is_null(tail(xs))) {
+        return xs;
+    } else {
+        const split = d_split_list(xs);
+        return d_merge(d_merge_sort(head(split)), d_merge_sort(tail(split)));
+    }
+
+}
+
+// TEST:
+const my_list = list(7, 2, 4, 6, 9, 1, 5, 8, 3, 6);
+d_merge_sort(my_list);
