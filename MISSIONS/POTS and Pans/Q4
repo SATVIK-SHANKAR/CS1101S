@@ -1,0 +1,43 @@
+function get_dtmf_frequencies(number) {
+    // your answer here
+    const lst = list(pair(941, 1336), pair(697, 1209), pair(697, 1336),
+                     pair(697, 1477), pair(770, 1209), pair(770, 1336),
+                     pair(770, 1477), pair(852, 1209), pair(852, 1336),
+                     pair(852, 1477), pair(941, 1209), pair(941, 1477),
+                     pair(697, 1633), pair(770, 1633), pair(852, 1633),
+                     pair(941, 1633));
+    return list_ref(lst, number);
+}
+
+function make_dtmf_tone(frequency_pair) {
+    // your answer here
+    return simultaneously(list(sine_sound(head(frequency_pair), 0.5),
+                               sine_sound(tail(frequency_pair), 0.5)));
+}
+
+function dial(list_of_digits) {
+    // your answer here
+    return is_null(tail(list_of_digits))
+           ? make_dtmf_tone(get_dtmf_frequencies(head(list_of_digits)))
+           : consecutively(list(
+                                make_dtmf_tone(get_dtmf_frequencies(head(list_of_digits))),
+                                silence_sound(0.1),
+                                dial(tail(list_of_digits))));
+}
+
+function dial_all(list_of_numbers) {
+    // your answer here
+    const lst = list(1,8,0,0,5,2,1,1,9,8,0);  
+    const filtered_list = filter(x => !equal(x, lst), list_of_numbers);
+    const altered_list = map(x => append(x, list(11)), filtered_list);
+    const final_lst = accumulate((x, y) => append(x, y), null, altered_list);
+    return dial(final_lst);
+}
+
+// Test
+play(dial_all(
+    list(
+      list(1,8,0,0,5,2,1,1,9,8,0),  // not played!!!
+      list(6,2,3,5,8,5,7,7),
+      list(0,0,8,6,1,3,7,7,0,9,5,0,0,6,1))
+ ));
