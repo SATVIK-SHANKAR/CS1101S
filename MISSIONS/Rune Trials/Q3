@@ -1,0 +1,14 @@
+function mosaic(r1, r2, r3, r4) {
+    // your answer here
+    return stack(beside(r4,r1), beside(r3,r2));
+}
+
+// Test
+
+function upside_down_mosaic(r1, r2, r3, r4) {
+    // your answer here
+    return quarter_turn_right(quarter_turn_right(stack(beside(r4,r1), beside(r3,r2))));
+}
+
+// Test
+show(upside_down_mosaic(rcross, sail, corner, nova));
