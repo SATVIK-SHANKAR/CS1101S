@@ -1,0 +1,112 @@
+// TASK 1
+
+// Make a rover object.
+// - init_loc: a pair [x, y] that contains the (x, y) coordinates of
+//             the rover's initial location; x and y must be integers.
+// - init_dir: rover's initial direction; must be the string
+//             "N", "E", "S", or "W".
+
+function make_rover(init_loc, init_dir) {
+
+    // Define variables to represent the state of the rover.
+
+    let location = init_loc; 
+    let direction = init_dir;
+    let total_distance = 0;
+
+
+    // Move rover forward by dist in the current direction:
+    // - update rover's location.
+    // - update total distance travelled.
+    function move_forward(dist) {
+
+        if (direction === "N") {
+            location[1] = location[1] + dist;
+        } else if (direction === "E") {
+            location[0] = location[0] + dist;
+        } else if (direction === "S") {
+            location[1] = location[1] - dist;
+        } else if (direction === "W") {
+            location[0] = location[0] - dist;
+        }
+        total_distance = total_distance + dist;
+
+    }
+
+    // Turn rover 90 degrees right:
+    // - update rover's direction.
+    function quarter_turn_right() {
+
+        if (direction === "N") {
+            direction = "E";
+        } else if (direction === "E") {
+            direction = "S";
+        } else if (direction === "S") {
+            direction = "W";
+        } else if (direction === "W") {
+            direction = "N";
+        }
+    }
+
+    // Return rover's current (x, y) coordinates in a pair.
+    function get_location() {
+
+       return location;
+    }
+
+    // Return rover's current direction (as "N", "E", "S", or "W").
+    function get_direction() {
+
+        return direction;
+
+    }
+
+    // Return total distance travelled by rover.
+    function get_total_distance() {
+
+        return total_distance;
+
+    }
+
+    function dispatch(m) {
+        if (m === "move_forward") {
+            return move_forward;
+        } else if (m === "quarter_turn_right") {
+            return quarter_turn_right;
+        } else if (m === "get_location") {
+            return get_location;
+        } else if (m === "get_direction") {
+            return get_direction;
+        } else if (m === "get_total_distance") {
+            return get_total_distance;
+        } else {
+            error(m, "Unknown operation");
+        }
+    }
+
+    // Check that input initial direction is valid.
+    if (init_dir === "N" || init_dir === "E" ||
+        init_dir === "S" || init_dir === "W") {
+        // nothing
+    } else {
+        error(init_dir, "Unknown initial direction");
+    }
+
+    return dispatch;
+}
+
+// TEST:
+
+const my_rover = make_rover(pair(3, 4), "S");
+display(my_rover("get_location")()); // should be [3, 4]
+display(my_rover("get_direction")()); // should be "S"
+display(my_rover("get_total_distance")()); // should be 0
+my_rover("quarter_turn_right")();
+my_rover("quarter_turn_right")();
+my_rover("quarter_turn_right")();
+my_rover("move_forward")(7);
+my_rover("quarter_turn_right")();
+my_rover("move_forward")(4);
+display(my_rover("get_location")()); // should be [10, 0]
+display(my_rover("get_direction")()); // should be "S"
+display(my_rover("get_total_distance")()); // should be 11
