@@ -1,0 +1,43 @@
+// Task 5
+
+
+function sine_sound(freq, duration) {
+    const sine_wave = t => math_sin(2 * math_PI * freq * t);
+    return make_sound(sine_wave, duration);
+}
+
+function two_consecutively(s1, s2) {
+    const wave1 = get_wave(s1);
+    const wave2 = get_wave(s2);
+    const duration1 = get_duration(s1);
+    const duration2 = get_duration(s2);
+    const new_wave = t => t < duration1 ? wave1(t) : wave2(t - duration1);
+    return make_sound(new_wave, duration1 + duration2);
+}
+
+function consecutively(list_of_sounds) {
+    return is_null(list_of_sounds)
+           ? silence_sound(0)
+           : two_consecutively(head(list_of_sounds), consecutively(tail(list_of_sounds)));
+}
+
+//----------------------------------------------------------------------------------------
+
+const dot_duration = 0.125;
+const dash_duration = 3 * dot_duration;
+
+// Create dot, dash and pause sounds first.
+const dot_sound = sine_sound(800, dot_duration);
+const dash_sound = sine_sound(800, dash_duration);
+const dot_pause = silence_sound(dot_duration);
+const dash_pause = silence_sound(dash_duration);
+
+// Create sounds for each letter.
+const S_sound = consecutively(list(dot_sound,dot_pause,dot_sound,dot_pause,dot_sound));
+const O_sound = consecutively(list(dash_sound,dot_pause, dash_sound,dot_pause, dash_sound));
+
+// Build the signal out of letter sounds and pauses.
+const distress_signal = consecutively(list(S_sound, dash_pause, O_sound, dash_pause, S_sound));
+
+// Play distress signal.
+play(distress_signal);
