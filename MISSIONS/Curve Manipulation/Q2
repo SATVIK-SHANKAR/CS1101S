@@ -1,0 +1,34 @@
+// you can define your own helper functions here
+function close(curve) {
+  // your program here
+  return t => (t <= 1 / 2 ? curve(2 * t) : curve(1 - (2 * t - 1)));
+}
+
+// Test
+function s_generator(pt) {
+  // return function
+  return t =>
+    t < 0.5
+      ? make_point(
+          0.25 * -math_sin(2 * math_PI * 0.75 * 2 * (0.5 - t)) + x_of(pt),
+          0.25 * -math_cos(2 * math_PI * 0.75 * 2 * (0.5 - t)) + y_of(pt) + 0.25
+        )
+      : make_point(
+          0.25 * math_sin((2 * math_PI * 0.75 * (t - 0.5)) / 0.5) + x_of(pt),
+          0.25 * math_cos((2 * math_PI * 0.75 * (t - 0.5)) / 0.5) +
+            y_of(pt) -
+            0.25
+        );
+}
+
+function reflect_through_y_axis(curve) {
+  // your program here
+  return t => make_point(-x_of(curve(t)), y_of(curve(t)));
+}
+
+const my_s_curve = s_generator(make_point(0, 0));
+
+// reflecting the s-curve
+draw_connected_full_view_proportional(200)(
+  connect_ends(close(my_s_curve), reflect_through_y_axis(my_s_curve))
+);
